@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Socket.IO Demo</title>
+		<link rel='stylesheet'
+			href='https://icode.run/bootstrap/css/bootstrap.min.css' />
+		<style>
+			body {
+				padding: 10px;
+			}
+			textarea {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<textarea class='form-control'></textarea>
+		<div class='input-group'>
+			<input id='message' class='form-control'
+				autofocus placeholder='Type message ...' />
+			<span class='input-group-btn'>
+				<button class='btn btn-primary'
+					onclick='javascript:send()'>Send</button>
+			</span>
+		</div>
+
+		<script src='https://icode.run/jquery.js'></script>
+		<script src='https://icode.run/bootstrap/js/bootstrap.min.js'></script>
+
+		<script src='/socket.io/socket.io.js'></script>
+		<script>
+			var socket = io.connect('/')
+			
+			socket.on('message', m => {
+				var old = $('textarea').val()
+				old += m + "\n"
+				$('textarea').val(old)
+			})
+			function send() {
+				var msg = $('#message').val()
+				$('#message').val('')
+				socket.send(msg)
+			}
+		</script>
+	</body>
+</html>
